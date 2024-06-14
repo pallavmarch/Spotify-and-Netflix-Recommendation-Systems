@@ -1,32 +1,24 @@
-# Spotify Recommendation System
-Creating a Spotify Recommendation System using the following steps:
+# Netflix_recommendation
 
-1. Imported the required CSV file.
-2. Verified the columns present in the dataset, including the identification of any blanks/NA values and the count of unique values in the 'Genre' and other columns.
-3. Filtered the dataset to retain only the relevant columns necessary for further analysis.
-4. Converted the values in the 'Loudness.dB' column to positive values and updated the column accordingly.
-
-Popularity Graphs:
-5. Plotted a bar graph using the dataset to represent the popularity of each genre among the songs present. The analysis revealed that 'Pop-Film' had the highest popularity, followed by the 'K-Pop' genre.
-6. Created a new dataset to measure the popularity of artists and generated a table summarizing the results.
-7. Produced a second graph to assess popularity, specifically focusing on artists whose mean popularity exceeded 87.
-
-Heatmap:
-8. Created a new dataset named 'da1' containing the numerical columns from the original dataset.
-9. Plotted a heatmap, which indicated a significant correlation between Loudness and Acousticness.
-
-KMeans:
-10. Compiled a list of data types, including 'int64' and 'float64', to be considered for clustering. Selected desired columns and stored them in the 'xy' DataFrame.
-11. Initialized an instance of the KMeans algorithm to cluster the data into ten distinct groups, assigning a cluster label to each row.
-
-Recommendation System:
-12. Renamed the 'Track.Name' column to 'Trackname'.
-13. Developed a class named 'SpotifyRec'.
-14. Defined the constructor, which takes the 'rec_data' parameter.
-15. Implemented the 'change_data' method to allow updating of the recommendation data after the object has been created.
-16. Created the 'get_recomm' method to retrieve song recommendations based on a given song name. It accepts two parameters: 'song_name' and 'amount' (defaulting to 1), indicating the number of recommendations to return.
-17. Initialized an empty list called 'distances' to store the calculated distances between the given song and other songs.
-18. Selected the data for the given song by filtering the 'rec_data_' DataFrame based on the matching song name, selecting the first result using 'head(1)'. Created a new DataFrame called 'res_data' by excluding the data for the given song from the 'rec_data_' DataFrame.
-19. Iterated over the rows of 'res_data' and calculated the distance between the numerical features of the given song and each row in 'res_data', excluding certain non-numerical columns [0, 1, 2, 3, 4, 19]. Appended the calculated distances to the 'distances' list.
-20. Added a new column called 'distance' to the 'res_data' DataFrame, containing the calculated distances. Sorted the 'res_data' DataFrame in ascending order based on the 'distance' column.
-21. Selected the specified number of recommendations from 'res_data' and returned a DataFrame containing the columns 'Artist.Name', 'Trackname', 'album_name', and 'Genre'.
+1.	The data was loaded
+2.	The number of rows, columns and types  of values were checked for the columns
+3.	The unnecessary columns were removed from the dataset. The 'title','director','cast','country','rating','listed_in','type' columns were kept
+4.	The contents from the 'cast' columns were splitted such that each actor's name were a singular row value of the list. The list os values were placed in actors_list 
+5.	The duplicate values were removed in the actors_list by using a set and then the values were sorted.
+6.	A Binary Matrix was created for the 'cast' column, by checking if each value of the actors_list is present in the 'cast' column of the data or not
+7.	The binary list created with respect to the unique actor's name from the actor_list was stored in the 'binary_actors_df' dataframe
+8.	The above 4 steps, starting from the contents being splitted to the binary list being stored in a new dataframe- The steps were repeated for the 'director', 'cast', 'country', 'rating' and 'listed_in' columns and the new dataframes created were termed as 'binary_directors_df', 'binary_country_df', 'binary_genre_df' and 'binary_rating_df'.
+9.	All the 5 binary list datasets were concatenated together
+10.	The Recommendation system would be created now
+11.	A function called 'recommender' was created which passes the argument 'search'
+12.	Two empty lists were created called cs_list and binary_list, which'll store cosine similarity values and binary values
+13.	If the search matches with any value from the 'title' column, the respective index nuber is fetched of the title
+14.	Two loops were generated to convert the binary list to 1D Numpy array, termed as Point 1 and Point 2
+15.	The dot product was claculated for the Point 1 and Point 2 vectors
+16.	The Euclidean norm of point1 and point2 were calculated
+17.	Finally the cosine similarity was calculated and was appeneded to the  empty list of cs_list
+18.	The data was copied to a new dataframe called 'movies_copy'
+19.	A new column was added to the 'movies_copy' called cos_sim which stores the values of the cs_list
+20.	A result variable was produced which copied the 'movies_copy' dataframe and sorted it descending  according the cs_list
+21.	The top 5 rows are selected with the highest cosine similarity values
+22.	If the search value doesn't match with any of the titles present, it's mentioned that the title is not present in the dataset
